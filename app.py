@@ -33,10 +33,11 @@ if "current_chat_id" not in st.session_state:
 
 # Sidebar - Gestion des sessions
 with st.sidebar:
-
-    st.image("img/logo.png" , use_column_width=True)
-
-
+    # Logo centré avec espacement
+    st.image("img/logo.png", 
+             use_column_width=True,
+             output_format="PNG")
+    
     st.header("💬 Historique des discussions")
     
     if st.button("➕ Nouvelle discussion", use_container_width=True):
@@ -51,6 +52,11 @@ with st.sidebar:
             "created_at": datetime.now().strftime("%d/%m/%Y %H:%M")
         }
         st.rerun()
+    
+    for chat_id, chat in st.session_state.chat_sessions.items():
+        if st.button(chat['name'], key=chat_id, use_container_width=True):
+            st.session_state.current_chat_id = chat_id
+            st.rerun()
     
     for chat_id, chat in st.session_state.chat_sessions.items():
         if st.button(chat['name'], key=chat_id, use_container_width=True):

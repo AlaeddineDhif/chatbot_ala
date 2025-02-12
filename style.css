@@ -69,18 +69,38 @@ h1 {
 }
 
 
-
-/* Style du logo dans la sidebar */
+/* Style du logo */
 .stSidebar img {
     display: block;
-    margin: 0 auto 20px auto;
-    border-radius: 15px;
-    padding: 10px;
+    margin: 0 auto 25px auto;
+    border-radius: 20px;
+    padding: 15px;
     background: #DEF2F1;
-    max-width: 80%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
 }
 
-/* Ajustement de l'espacement dans la sidebar */
+.stSidebar img:hover {
+    transform: scale(1.03);
+}
+
+/* Ajustements de l'espacement */
 .stSidebar > div:first-child {
-    padding-top: 2rem;
+    padding: 2rem 1rem 1rem 1rem;
+}
+
+.stSidebar .stButton > button {
+    margin: 8px 0;
+}
+
+/* Amélioration de la visibilité des boutons actifs */
+.stSidebar button:not([data-testid="baseButton-header"]) {
+    background: #F8F9FA !important;
+    border: 2px solid #3AAFA9 !important;
+    color: #2B7A78 !important;
+}
+
+.stSidebar button:not([data-testid="baseButton-header"]):hover {
+    background: #3AAFA9 !important;
+    color: white !important;
 }
