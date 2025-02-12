@@ -2,6 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 from datetime import datetime
 import uuid
+import time
 
 # Configuration de l'application
 st.set_page_config(
@@ -52,6 +53,9 @@ with st.sidebar:
             st.session_state.current_chat_id = chat_id
             st.rerun()
 
+# Titre du chatbot
+st.title("Ala Eddine Chatbot 🤖")
+
 # Affichage de la discussion sélectionnée
 if selected_chat := st.session_state.chat_sessions.get(st.session_state.current_chat_id):
     for msg in selected_chat['messages']:
@@ -77,15 +81,17 @@ if prompt := st.chat_input("Posez votre question..."):
             response_placeholder = st.empty()
             full_response = ""
 
-            try:
-                model = genai.GenerativeModel("gemini-pro")
-                response = model.generate_content(prompt)
-                full_response = response.text
-                response_placeholder.markdown(full_response)
+            # Indicateur de "thinking"
+            with st.spinner("Thinking..."):
+                try:
+                    model = genai.GenerativeModel("gemini-pro")
+                    response = model.generate_content(prompt)
+                    full_response = response.text
+                    response_placeholder.markdown(full_response)
 
-            except Exception as e:
-                full_response = f"❌ Erreur: {str(e)}"
-                response_placeholder.error(full_response)
+                except Exception as e:
+                    full_response = f"❌ Erreur: {str(e)}"
+                    response_placeholder.error(full_response)
 
             selected_chat['messages'].append({
                 "role": "assistant",
