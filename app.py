@@ -13,7 +13,7 @@ st.set_page_config(
 )
 
 # Configuration de l'API Gemini (Remplace TA_CLE_API_GOOGLE par ta clé API)
-genai.configure(api_key="TA_CLE_API_GOOGLE")
+genai.configure(api_key="AIzaSyDpBdtPhSifJaea1vSEOXyL-X23SEtmOoo")
 
 # Gestion des sessions de chat
 if "chat_sessions" not in st.session_state:
