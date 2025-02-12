@@ -67,3 +67,20 @@ h1 {
     background-color: #3AAFA9;
     color: white;
 }
+
+
+
+/* Style du logo dans la sidebar */
+.stSidebar img {
+    display: block;
+    margin: 0 auto 20px auto;
+    border-radius: 15px;
+    padding: 10px;
+    background: #DEF2F1;
+    max-width: 80%;
+}
+
+/* Ajustement de l'espacement dans la sidebar */
+.stSidebar > div:first-child {
+    padding-top: 2rem;
+}

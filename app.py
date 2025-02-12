@@ -33,6 +33,10 @@ if "current_chat_id" not in st.session_state:
 
 # Sidebar - Gestion des sessions
 with st.sidebar:
+
+    st.image("img/logo.png" , use_column_width=True)
+
+
     st.header("💬 Historique des discussions")
     
     if st.button("➕ Nouvelle discussion", use_container_width=True):
