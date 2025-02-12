@@ -1,5 +1,5 @@
 import streamlit as st
-from openai import OpenAI
+import google.generativeai as genai
 from datetime import datetime
 import uuid
 
@@ -11,17 +11,13 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Initialisation du client OpenAI
-@st.cache_resource
-def load_openai_client():
-    return OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-
-client = load_openai_client()
+# Configuration de l'API Gemini (Remplace TA_CLE_API_GOOGLE par ta clé API)
+genai.configure(api_key="AIzaSyDpBdtPhSifJaea1vSEOXyL-X23SEtmOoo")
 
 # Gestion des sessions de chat
 if "chat_sessions" not in st.session_state:
     st.session_state.chat_sessions = {}
-    
+
 if "current_chat_id" not in st.session_state:
     new_chat_id = str(uuid.uuid4())
     st.session_state.current_chat_id = new_chat_id
@@ -80,19 +76,17 @@ if prompt := st.chat_input("Posez votre question..."):
         with st.chat_message("assistant"):
             response_placeholder = st.empty()
             full_response = ""
-            
+
             try:
-                response = client.chat.completions.create(
-                    model="gpt-3.5-turbo",  # Utilise GPT-4 pour des réponses optimales
-                    messages=[{"role": msg["role"], "content": msg["content"]} for msg in selected_chat["messages"]]
-                )
-                full_response = response.choices[0].message.content
+                model = genai.GenerativeModel("gemini-pro")
+                response = model.generate_content(prompt)
+                full_response = response.text
                 response_placeholder.markdown(full_response)
-                
+
             except Exception as e:
                 full_response = f"❌ Erreur: {str(e)}"
                 response_placeholder.error(full_response)
-            
+
             selected_chat['messages'].append({
                 "role": "assistant",
                 "content": full_response,
