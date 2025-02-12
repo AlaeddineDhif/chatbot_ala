@@ -3,6 +3,8 @@ import google.generativeai as genai
 from datetime import datetime
 import uuid
 import time  # Ajout de time pour simuler le streaming
+import os
+
 
 # Configuration de l'application
 st.set_page_config(
@@ -34,9 +36,9 @@ if "current_chat_id" not in st.session_state:
 # Sidebar - Gestion des sessions
 with st.sidebar:
     # Logo centré avec espacement
-    st.image("img/logo.png", 
-             use_column_width=True,
-             output_format="PNG")
+    
+    logo_path = os.path.join(os.path.dirname(__file__), "img/logo.png")
+    st.image(logo_path, use_container_width=True)
     
     st.header("💬 Historique des discussions")
     
