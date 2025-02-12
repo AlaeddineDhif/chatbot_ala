@@ -12,7 +12,7 @@ st.set_page_config(
 )
 
 # Configuration de l'API Gemini (Remplace TA_CLE_API_GOOGLE par ta clé API)
-genai.configure(api_key="AIzaSyDpBdtPhSifJaea1vSEOXyL-X23SEtmOoo")
+genai.configure(api_key="TA_CLE_API_GOOGLE")
 
 # Gestion des sessions de chat
 if "chat_sessions" not in st.session_state:
@@ -39,7 +39,7 @@ with st.sidebar:
         st.session_state.current_chat_id = new_chat_id
         st.session_state.chat_sessions[new_chat_id] = {
             "id": new_chat_id,
-            "name": f"Discussion {len(st.session_state.chat_sessions)+1}",
+            "name": f"Discussion {len(st.session_state.chat_sessions) + 1}",
             "messages": [
                 {"role": "system", "content": "Vous êtes un tuteur IA expert pour collégiens. Expliquez de manière claire et concise, avec des exemples concrets.", "timestamp": datetime.now().strftime("%d/%m/%Y %H:%M")}
             ],
@@ -79,9 +79,12 @@ if prompt := st.chat_input("Posez votre question..."):
 
             try:
                 model = genai.GenerativeModel("gemini-pro")
-                response = model.generate_content(prompt)
-                full_response = response.text
-                response_placeholder.markdown(full_response)
+                response_stream = model.generate_content_stream(prompt)
+
+                for chunk in response_stream:
+                    if chunk.text:
+                        full_response += chunk.text  # Ajoute la partie reçue
+                        response_placeholder.markdown(full_response)  # Met à jour l'affichage progressivement
 
             except Exception as e:
                 full_response = f"❌ Erreur: {str(e)}"
