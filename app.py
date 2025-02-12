@@ -2,6 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 from datetime import datetime
 import uuid
+import time  # Ajout de time pour simuler le streaming
 
 # Configuration de l'application
 st.set_page_config(
@@ -79,12 +80,16 @@ if prompt := st.chat_input("Posez votre question..."):
 
             try:
                 model = genai.GenerativeModel("gemini-pro")
-                response_stream = model.generate_content_stream(prompt)
+                response = model.generate_content(prompt)
+                full_response = response.text
 
-                for chunk in response_stream:
-                    if chunk.text:
-                        full_response += chunk.text  # Ajoute la partie reçue
-                        response_placeholder.markdown(full_response)  # Met à jour l'affichage progressivement
+                # Simulation de streaming avec affichage progressif
+                displayed_text = ""
+                for char in full_response:
+                    displayed_text += char
+                    response_placeholder.markdown(displayed_text + "▌")  # Curseur animé
+                    time.sleep(0.02)  # Ajuste la vitesse d'affichage
+                response_placeholder.markdown(displayed_text)  # Retire le curseur à la fin
 
             except Exception as e:
                 full_response = f"❌ Erreur: {str(e)}"
