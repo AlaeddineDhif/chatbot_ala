@@ -2,14 +2,8 @@
 # pip install -qU langchain-ollama langchain streamlit
 
 import streamlit as st
-from langchain_ollama import ChatOllama
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import (
-    ChatPromptTemplate,
-    SystemMessagePromptTemplate,
-    HumanMessagePromptTemplate,
-    AIMessagePromptTemplate
-)
+import google.generativeai as genai
+
 import uuid
 from datetime import datetime
 
